@@ -12,15 +12,16 @@ final class SearchPageCollectionView: UICollectionView {
     var model = [ImageModel]()
     var onShare: ((String, UIView) -> Void)?
     var onSelect: ((Int) -> Void)?
+    private let imageLoader: ImageLoaderProtocol
     
-    init() {
+    init(loader: ImageLoaderProtocol) {
+        self.imageLoader = loader
         super.init(frame: .zero, collectionViewLayout: SearchPageCollectionView.makeLayout())
         setupCollectionView()
     }
     
     required init?(coder: NSCoder) {
-        super.init(frame: .zero, collectionViewLayout: SearchPageCollectionView.makeLayout())
-        setupCollectionView()
+        fatalError("init(coder:) has not been implemented")
     }
     
     private static func makeLayout() -> UICollectionViewLayout {
@@ -110,7 +111,7 @@ extension SearchPageCollectionView: UICollectionViewDataSource {
         }
         
         let imageModel = model[indexPath.item]
-        cell.configure(imageURL: imageModel.webformatURL, loader: ImageLoader.shared)
+        cell.configure(imageURL: imageModel.webformatURL, loader: imageLoader)
         
         cell.onShare = { [weak self, weak cell] sourceView in
             guard let self, let cell, let indexPath = self.indexPath(for: cell) else { return }

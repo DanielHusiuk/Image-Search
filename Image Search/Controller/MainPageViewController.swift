@@ -17,6 +17,16 @@ final class MainPageViewController: UIViewController {
     private let textField = CustomTextField()
     private let searchButton = CustomButton()
     private let bottomLabel = CustomBottomLabel()
+    private let imageLoader: ImageLoaderProtocol
+    
+    init(imageLoader: ImageLoaderProtocol) {
+        self.imageLoader = imageLoader
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,9 +127,9 @@ final class MainPageViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func searchButtonTouchUp() {
-        switch SearchManager.validate(textField.text ?? "") {
+        switch SearchValidator.validate(textField.text ?? "") {
         case .success(let searchString):
-            let searchPageViewController = SearchPageViewController()
+            let searchPageViewController = SearchPageViewController(imageLoader: imageLoader)
             searchPageViewController.searchString = searchString
             searchPageViewController.onTextChanged = { [weak self] text in
                 self?.textField.text = text

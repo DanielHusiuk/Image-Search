@@ -12,7 +12,8 @@ final class SearchPageViewController: UIViewController {
     private let textField = CustomTextField()
     private let searchButton = CustomButton(style: .icon)
     
-    private let collectionView = SearchPageCollectionView()
+    private let imageLoader: ImageLoaderProtocol
+    private let collectionView: SearchPageCollectionView
     private let imageService: ImageServiceProtocol = ImageService(apiManager: ApiManager())
     
     var onTextChanged: ((String) -> Void)?
@@ -20,6 +21,16 @@ final class SearchPageViewController: UIViewController {
         didSet {
             textField.text = searchString
         }
+    }
+    
+    init(imageLoader: ImageLoaderProtocol) {
+        self.imageLoader = imageLoader
+        self.collectionView = SearchPageCollectionView(loader: imageLoader)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -115,7 +126,7 @@ final class SearchPageViewController: UIViewController {
     }
     
     @objc private func searchButtonTouchUp() {
-        switch SearchManager.validate(textField.text ?? "") {
+        switch SearchValidator.validate(textField.text ?? "") {
         case .success(let searchString):
             self.searchString = searchString
             loadImages()
@@ -150,7 +161,7 @@ final class SearchPageViewController: UIViewController {
     
     private func showGallery(startingAt index: Int) {
         view.endEditing(true)
-        let gallery = ImageGalleryViewController(images: collectionView.model, startIndex: index)
+        let gallery = ImageGalleryViewController(images: collectionView.model, startIndex: index, loader: imageLoader)
         navigationController?.pushViewController(gallery, animated: true)
     }
 }

@@ -21,7 +21,7 @@ final class ImagePageViewController: UIViewController {
     private var laidOutSize: CGSize = .zero
     private let fitZoomScale: CGFloat = 1
     
-    init(index: Int, imageModel: ImageModel, loader: ImageLoaderProtocol = ImageLoader.shared) {
+    init(index: Int, imageModel: ImageModel, loader: ImageLoaderProtocol) {
         self.index = index
         self.imageModel = imageModel
         self.loader = loader
@@ -109,7 +109,9 @@ final class ImagePageViewController: UIViewController {
         let isFirstImage = imageView.image == nil
         imageView.image = image
         activityIndicator.stopAnimating()
-        if isFirstImage { layoutImage() }
+        if isFirstImage {
+            layoutImage()
+        }
     }
     
     // MARK: - Layout and Zoom

@@ -1,5 +1,5 @@
 //
-//  SearchManager.swift
+//  SearchValidator.swift
 //  Image Search
 //
 //  Created by Daniel Husiuk on 08.10.2026.
@@ -13,8 +13,7 @@ enum SearchValidationResult {
     case invalid
 }
 
-enum SearchManager {
-    
+enum SearchValidator {
     static func validate(_ text: String) -> SearchValidationResult {
         let searchString = text.trimmingCharacters(in: .whitespacesAndNewlines)
         

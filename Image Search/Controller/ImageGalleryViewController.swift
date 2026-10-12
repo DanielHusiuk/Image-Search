@@ -10,7 +10,7 @@ import Photos
 
 final class ImageGalleryViewController: UIPageViewController {
     
-    private let imageLoader: ImageLoaderProtocol = ImageLoader.shared
+    private let imageLoader: ImageLoaderProtocol
     private let shareButton = ShareButton(style: .systemUltraThinMaterialDark)
     private let downloadButton = DownloadButton()
     
@@ -23,7 +23,8 @@ final class ImageGalleryViewController: UIPageViewController {
         return images[page.index]
     }
     
-    init(images: [ImageModel], startIndex: Int) {
+    init(images: [ImageModel], startIndex: Int, loader: ImageLoaderProtocol) {
+        self.imageLoader = loader
         self.images = images
         self.startIndex = startIndex
         super.init(
@@ -34,7 +35,7 @@ final class ImageGalleryViewController: UIPageViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init has not been implementer")
+        fatalError("init has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -129,7 +130,7 @@ final class ImageGalleryViewController: UIPageViewController {
     
     private func makePage(at index: Int) -> ImagePageViewController? {
         guard images.indices.contains(index) else { return nil }
-        return ImagePageViewController(index: index, imageModel: images[index])
+        return ImagePageViewController(index: index, imageModel: images[index], loader: imageLoader)
     }
     
     @objc private func downloadButtonTapped(_ sender: Any) {
