@@ -8,31 +8,35 @@
 import UIKit
 
 enum Style {
-    case title
+    case search
     case icon
+    case local
 }
 
 final class CustomButton: UIButton {
     
     private let style: Style
-    private let gradientView = GradientView()
+    private let gradientView: GradientView
     
     init(style: Style) {
         self.style = style
+        self.gradientView = Self.makeGradient(for: style)
         super.init(frame: .zero)
         setupStyle()
         setupGradient()
     }
     
     override init(frame: CGRect) {
-        self.style = .title
+        self.style = .search
+        self.gradientView = Self.makeGradient(for: style)
         super.init(frame: frame)
         setupStyle()
         setupGradient()
     }
     
     required init?(coder: NSCoder) {
-        self.style = .title
+        self.style = .search
+        self.gradientView = Self.makeGradient(for: style)
         super.init(coder: coder)
         setupStyle()
         setupGradient()
@@ -54,22 +58,38 @@ final class CustomButton: UIButton {
         }
     }
     
+    private static func makeGradient(for style: Style) -> GradientView {
+        switch style {
+        case .search, .icon:
+            return GradientView(
+                firstColor: UIColor.customPurple.cgColor,
+                secondColor: UIColor.customDarkPurple.cgColor
+            )
+        case .local:
+            return GradientView(
+                firstColor: UIColor.gray.cgColor,
+                secondColor: UIColor.darkGray.cgColor
+            )
+        }
+    }
+    
     private func setupStyle() {
         backgroundColor = .clear
         clipsToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
         
         var configuration = UIButton.Configuration.plain()
-        configuration.image = UIImage(
-            systemName: "magnifyingglass",
-            withConfiguration: UIImage.SymbolConfiguration(
-                pointSize: 14,
-                weight: .semibold
-            )
-        )
         configuration.baseForegroundColor = .white
         
-        if style == .title {
+        switch style {
+        case .search:
+            configuration.image = UIImage(
+                systemName: "magnifyingglass",
+                withConfiguration: UIImage.SymbolConfiguration(
+                    pointSize: 14,
+                    weight: .semibold
+                )
+            )
             configuration.imagePadding = 8
             configuration.title = "Search"
             configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attributes in
@@ -77,10 +97,33 @@ final class CustomButton: UIButton {
                 attributes.font = .systemFont(ofSize: 20, weight: .semibold)
                 return attributes
             }
-        } else {
+            
+        case .icon:
+            configuration.image = UIImage(
+                systemName: "magnifyingglass",
+                withConfiguration: UIImage.SymbolConfiguration(
+                    pointSize: 14,
+                    weight: .semibold
+                )
+            )
             configuration.contentInsets = .zero
+            
+        case .local:
+            configuration.image = UIImage(
+                systemName: "photo",
+                withConfiguration: UIImage.SymbolConfiguration(
+                    pointSize: 14,
+                    weight: .semibold
+                )
+            )
+            configuration.imagePadding = 8
+            configuration.title = "Local gallery"
+            configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attributes in
+                var attributes = attributes
+                attributes.font = .systemFont(ofSize: 20, weight: .semibold)
+                return attributes
+            }
         }
-        
         self.configuration = configuration
     }
     

@@ -1,2 +1,5 @@
 .swiftlint.yml
 Config.xcconfig
+
+# CocoaPods
+Pods/

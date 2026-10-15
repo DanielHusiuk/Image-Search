@@ -6,14 +6,19 @@
 //
 
 import UIKit
+import Photos
 
 final class ImageCell: UICollectionViewCell {
     
     private let imageView = UIImageView()
-    private let shareButton = ShareButton(style: .systemUltraThinMaterialDark)
+    private let shareButton = CustomBlurButton(style: .systemUltraThinMaterialDark, imageName: "square.and.arrow.up")
     
     private var imageURL: String?
     private var imageTask: URLSessionDataTask?
+    
+    private var assetIdentifier: String?
+    private var assetRequestID: PHImageRequestID?
+    private static let assetTargetSize = CGSize(width: 400, height: 400)
     
     static let reuseIdentifier = "ImageCell"
     var onShare: ((UIView) -> Void)?
@@ -37,16 +42,44 @@ final class ImageCell: UICollectionViewCell {
         imageTask?.cancel()
         imageTask = nil
         imageURL = nil
+        
+        cancelLocalAssetRequest()
+        assetIdentifier = nil
         imageView.image = nil
+        shareButton.isHidden = false
         onShare = nil
     }
     
-    func configure(imageURL: String, loader: ImageLoaderProtocol) {
+    func configureRemote(imageURL: String, loader: ImageLoaderProtocol) {
+        cancelImageRequests()
+        shareButton.isHidden = false
         self.imageURL = imageURL
         imageView.image = nil
         
         imageTask = loader.loadImage(from: imageURL) { [weak self] image in
             guard let self, self.imageURL == imageURL else { return }
+            self.imageView.image = image
+        }
+    }
+    
+    func configureLocal(asset: PHAsset) {
+        cancelImageRequests()
+        shareButton.isHidden = true
+        assetIdentifier = asset.localIdentifier
+        imageView.image = nil
+        
+        let options = PHImageRequestOptions()
+        options.deliveryMode = .opportunistic
+        options.resizeMode = .fast
+        options.isNetworkAccessAllowed = true
+        
+        assetRequestID = PHImageManager.default().requestImage(
+            for: asset,
+            targetSize: ImageCell.assetTargetSize,
+            contentMode: .aspectFill,
+            options: options
+        ) { [weak self] image, _ in
+            guard let self, self.assetIdentifier == asset.localIdentifier else { return }
             self.imageView.image = image
         }
     }
@@ -88,5 +121,18 @@ final class ImageCell: UICollectionViewCell {
     
     @objc private func shareButtonTapped() {
         onShare?(shareButton)
+    }
+    
+    private func cancelLocalAssetRequest() {
+        if let requestID = assetRequestID {
+            PHImageManager.default().cancelImageRequest(requestID)
+        }
+        assetRequestID = nil
+    }
+    
+    private func cancelImageRequests() {
+        imageTask?.cancel()
+        imageTask = nil
+        cancelLocalAssetRequest()
     }
 }

@@ -9,13 +9,10 @@ import UIKit
 
 final class DownloadButton: UIButton {
     
-    private let gradientView = GradientView()
-    
-    init(style: Style) {
-        super.init(frame: .zero)
-        setupStyle()
-        setupGradient()
-    }
+    private let gradientView = GradientView(
+        firstColor: UIColor.customPurple.cgColor,
+        secondColor: UIColor.customDarkPurple.cgColor
+    )
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,17 +28,17 @@ final class DownloadButton: UIButton {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let cornerRadiusValue = bounds.height / 2
-        gradientView.layer.cornerRadius = cornerRadiusValue
-        layer.cornerRadius = cornerRadiusValue
+        let cornerRadius = bounds.height / 2
+        gradientView.layer.cornerRadius = cornerRadius
+        layer.cornerRadius = cornerRadius
     }
     
     override var isHighlighted: Bool {
         didSet {
-            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
+            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
                 self.alpha = self.isHighlighted ? 0.8 : 1.0
                 self.transform = self.isHighlighted ? CGAffineTransform(scaleX: 0.98, y: 0.98) : .identity
-            })
+            }
         }
     }
     
