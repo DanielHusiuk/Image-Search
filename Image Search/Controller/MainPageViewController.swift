@@ -15,7 +15,8 @@ final class MainPageViewController: UIViewController {
     
     private let titleLabel = CustomTitleLabel()
     private let textField = CustomTextField()
-    private let searchButton = CustomButton()
+    private let searchButton = CustomButton(style: .search)
+    private let galleryButton = CustomButton(style: .local)
     private let bottomLabel = CustomBottomLabel()
     private let imageLoader: ImageLoaderProtocol
     
@@ -48,7 +49,7 @@ final class MainPageViewController: UIViewController {
     private func setupLayout() {
         setupBackgroundImage()
         setupStackViews()
-        setupBottomLabel()
+        setupGalleryButton()
     }
     
     private func setupShadows() {
@@ -77,6 +78,7 @@ final class MainPageViewController: UIViewController {
         textField.delegate = self
         secondaryStackView.addArrangedSubview(textField)
         secondaryStackView.addArrangedSubview(searchButton)
+        secondaryStackView.addArrangedSubview(bottomLabel)
         searchButton.addTarget(self, action: #selector(searchButtonTouchUp), for: .touchUpInside)
         
         let centerYConstraint = mainStackView.centerYAnchor.constraint(
@@ -115,12 +117,15 @@ final class MainPageViewController: UIViewController {
         ])
     }
     
-    private func setupBottomLabel() {
-        view.addSubview(bottomLabel)
+    private func setupGalleryButton() {
+        galleryButton.addTarget(nil, action: #selector(galleryButtonTouchUp), for: .touchUpInside)
+        view.addSubview(galleryButton)
         
         NSLayoutConstraint.activate([
-            bottomLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            bottomLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            galleryButton.heightAnchor.constraint(equalToConstant: 44),
+            galleryButton.widthAnchor.constraint(equalToConstant: 200),
+            galleryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            galleryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -129,7 +134,7 @@ final class MainPageViewController: UIViewController {
     @objc private func searchButtonTouchUp() {
         switch SearchValidator.validate(textField.text ?? "") {
         case .success(let searchString):
-            let searchPageViewController = SearchPageViewController(imageLoader: imageLoader)
+            let searchPageViewController = RemotePageViewController(imageLoader: imageLoader)
             searchPageViewController.searchString = searchString
             searchPageViewController.onTextChanged = { [weak self] text in
                 self?.textField.text = text
@@ -145,6 +150,12 @@ final class MainPageViewController: UIViewController {
                 actionTitle: "Ok"
             )
         }
+    }
+    
+    @objc private func galleryButtonTouchUp() {
+        let galleryViewController = LocalPageViewController(imageLoader: imageLoader)
+        navigationController?.pushViewController(galleryViewController, animated: true)
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     }
 }
 

@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import Photos
 
 final class ImagePageViewController: UIViewController {
     
     let index: Int
-    private let imageModel: ImageModel
-    private let loader: ImageLoaderProtocol
+    private let asset: PHAsset?
+    private let imageModel: ImageModel?
+    private let loader: ImageLoaderProtocol?
     
     private let scrollView = UIScrollView()
     private let imageView = UIImageView()
@@ -21,10 +23,23 @@ final class ImagePageViewController: UIViewController {
     private var laidOutSize: CGSize = .zero
     private let fitZoomScale: CGFloat = 1
     
+    var currentImage: UIImage? {
+        imageView.image
+    }
+    
     init(index: Int, imageModel: ImageModel, loader: ImageLoaderProtocol) {
         self.index = index
         self.imageModel = imageModel
         self.loader = loader
+        self.asset = nil
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init(index: Int, asset: PHAsset) {
+        self.index = index
+        self.asset = asset
+        self.imageModel = nil
+        self.loader = nil
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -92,6 +107,14 @@ final class ImagePageViewController: UIViewController {
     private func loadImages() {
         activityIndicator.startAnimating()
         
+        if let imageModel, let loader {
+            loadRemoteImage(imageModel: imageModel, loader: loader)
+        } else if let asset {
+            loadLocalImage(asset: asset)
+        }
+    }
+    
+    private func loadRemoteImage(imageModel: ImageModel, loader: ImageLoaderProtocol) {
         _ = loader.loadImage(from: imageModel.webformatURL) { [weak self] image in
             guard let self, let image, self.imageView.image == nil else { return }
             self.display(image)
@@ -102,6 +125,28 @@ final class ImagePageViewController: UIViewController {
             self.activityIndicator.stopAnimating()
             guard let image else { return }
             self.display(image)
+        }
+    }
+    
+    private func loadLocalImage(asset: PHAsset) {
+        let options = PHImageRequestOptions()
+        options.deliveryMode = .highQualityFormat
+        options.resizeMode = .fast
+        options.isNetworkAccessAllowed = true
+        
+        PHImageManager.default().requestImage(
+            for: asset,
+            targetSize: PHImageManagerMaximumSize,
+            contentMode: .aspectFit,
+            options: options,
+        ) { [weak self] image, _ in
+            guard let self else { return }
+            guard let image else {
+                self.activityIndicator.stopAnimating()
+                return
+            }
+            self.display(image)
+            self.activityIndicator.stopAnimating()
         }
     }
     

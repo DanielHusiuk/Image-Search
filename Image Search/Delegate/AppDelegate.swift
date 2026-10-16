@@ -7,6 +7,10 @@
 
 import UIKit
 
+#if DEBUG
+import netfox
+#endif
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -14,6 +18,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        
+        #if DEBUG
+        NFX.sharedInstance().start()
+        #endif
+        
         return true
     }
 }

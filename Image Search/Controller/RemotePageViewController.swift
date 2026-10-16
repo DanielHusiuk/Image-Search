@@ -1,5 +1,5 @@
 //
-//  SearchPageViewController.swift
+//  RemotePageViewController.swift
 //  Image Search
 //
 //  Created by Daniel Husiuk on 06.10.2026.
@@ -7,13 +7,13 @@
 
 import UIKit
 
-final class SearchPageViewController: UIViewController {
+final class RemotePageViewController: UIViewController {
     
     private let textField = CustomTextField()
     private let searchButton = CustomButton(style: .icon)
     
     private let imageLoader: ImageLoaderProtocol
-    private let collectionView: SearchPageCollectionView
+    private let collectionView: ImageCollectionView
     private let imageService: ImageServiceProtocol = ImageService(apiManager: ApiManager())
     
     var onTextChanged: ((String) -> Void)?
@@ -25,7 +25,7 @@ final class SearchPageViewController: UIViewController {
     
     init(imageLoader: ImageLoaderProtocol) {
         self.imageLoader = imageLoader
-        self.collectionView = SearchPageCollectionView(loader: imageLoader)
+        self.collectionView = ImageCollectionView(loader: imageLoader)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -117,7 +117,7 @@ final class SearchPageViewController: UIViewController {
             
             switch result {
             case .success(let response):
-                self.collectionView.model = response.hits
+                self.collectionView.items = response.hits.map { .remote($0) }
                 self.collectionView.reloadData()
             case .failure(let error):
                 print(error)
@@ -161,14 +161,14 @@ final class SearchPageViewController: UIViewController {
     
     private func showGallery(startingAt index: Int) {
         view.endEditing(true)
-        let gallery = ImageGalleryViewController(images: collectionView.model, startIndex: index, loader: imageLoader)
+        let gallery = ImageGalleryViewController(images: collectionView.items, startIndex: index, loader: imageLoader)
         navigationController?.pushViewController(gallery, animated: true)
     }
 }
 
 // MARK: - Extensions
 
-extension SearchPageViewController: UITextFieldDelegate {
+extension RemotePageViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchButtonTouchUp()

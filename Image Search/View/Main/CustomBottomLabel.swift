@@ -24,6 +24,7 @@ final class CustomBottomLabel: UILabel {
         lineBreakMode = .byWordWrapping
         backgroundColor = .clear
         textColor = .white
+        textAlignment = .center
         font = .systemFont(ofSize: 16, weight: .semibold)
         text = "© Photos from Pixabay"
     }

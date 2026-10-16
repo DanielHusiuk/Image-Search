@@ -1,5 +1,5 @@
 //
-//  ShareButton.swift
+//  CustomBlurButton.swift
 //  Image Search
 //
 //  Created by Daniel Husiuk on 06.10.2026.
@@ -7,18 +7,21 @@
 
 import UIKit
 
-final class ShareButton: UIButton {
+final class CustomBlurButton: UIButton {
     
     private let blurStyle: UIBlurEffect.Style
+    private let imageName: String
     
-    init(style: UIBlurEffect.Style = .systemUltraThinMaterial) {
+    init(style: UIBlurEffect.Style = .systemUltraThinMaterial, imageName: String = "") {
         self.blurStyle = style
+        self.imageName = imageName
         super.init(frame: .zero)
         setupStyle()
     }
     
     required init?(coder: NSCoder) {
         self.blurStyle = .systemUltraThinMaterial
+        self.imageName = ""
         super.init(coder: coder)
         setupStyle()
     }
@@ -44,7 +47,7 @@ final class ShareButton: UIButton {
         
         var configuration = UIButton.Configuration.plain()
         configuration.image = UIImage(
-            systemName: "square.and.arrow.up",
+            systemName: imageName,
             withConfiguration: UIImage.SymbolConfiguration(
                 pointSize: 14,
                 weight: .semibold

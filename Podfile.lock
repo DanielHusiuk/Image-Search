@@ -1,0 +1,20 @@
+PODS:
+  - netfox (1.21.0)
+  - TOCropViewController (3.2.0)
+
+DEPENDENCIES:
+  - netfox
+  - TOCropViewController
+
+SPEC REPOS:
+  trunk:
+    - netfox
+    - TOCropViewController
+
+SPEC CHECKSUMS:
+  netfox: 9d5cc727fe7576c4c7688a2504618a156b7d44b7
+  TOCropViewController: 38189148d7014abafbb2914112fd767262d22659
+
+PODFILE CHECKSUM: 76158b8b4632f930aa73574fc53891868a3537a0
+
+COCOAPODS: 1.17.0
