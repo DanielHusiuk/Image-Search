@@ -59,7 +59,7 @@ final class ImageGalleryViewController: UIPageViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
+        view.backgroundColor = .systemGroupedBackground
         dataSource = self
         
         if let firstPage = makePage(at: startIndex) {
@@ -199,9 +199,9 @@ final class ImageGalleryViewController: UIPageViewController {
             images.removeAll()
             dataSource = nil
             setViewControllers(
-    [],
-    direction: .forward,
-    animated: false
+                [],
+                direction: .forward,
+                animated: false
             )
             return
         }
@@ -233,9 +233,9 @@ final class ImageGalleryViewController: UIPageViewController {
         images = updatedImages
         guard !images.isEmpty else {
             setViewControllers(
-    [],
-    direction: .forward,
-    animated: false
+                [],
+                direction: .forward,
+                animated: false
             )
             return
         }
@@ -266,6 +266,13 @@ final class ImageGalleryViewController: UIPageViewController {
         
         let cropViewController = TOCropViewController(image: currentImage.image)
         cropViewController.delegate = self
+        cropViewController.cropView.backgroundColor = .white
+        cropViewController.cropView.gridOverlayView?.backgroundColor = .white.withAlphaComponent(0.1)
+        cropViewController.doneButtonColor = view.tintColor
+        cropViewController.toolbar.resetButtonHidden = true
+        cropViewController.toolbar.rotateClockwiseButtonHidden = true
+        cropViewController.toolbar.rotateCounterclockwiseButtonHidden = true
+        cropViewController.toolbar.clampButtonHidden = true
         present(cropViewController, animated: true)
     }
     
