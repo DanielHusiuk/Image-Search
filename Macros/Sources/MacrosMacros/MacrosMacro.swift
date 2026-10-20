@@ -37,7 +37,7 @@ public struct DebugPrintable: AccessorMacro {
             """
             didSet {
                 #if DEBUG
-                print("[DebugPrintable] Variable '\(raw: identifier.text)' has been changed from value '\\(oldValue)' to value '\\(newValue)'")
+                print("[DebugPrintable] Variable '\(raw: identifier.text)' has been changed from value '\\(oldValue)' to value '\\(\(raw: identifier.text))'")
                 #endif
             }
             """
@@ -97,6 +97,6 @@ struct DebugPrintableDiagnostic: DiagnosticMessage {
 struct MacrosPlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
         DebugPrintable.self,
-        Obfuscated.self,
+        Obfuscated.self
     ]
 }

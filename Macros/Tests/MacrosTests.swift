@@ -25,7 +25,7 @@ final class MacrosTests: XCTestCase {
             var value = 0 {
                 didSet {
                     #if DEBUG
-                    print("[DebugPrintable] Variable 'value' has been changed from value '\\(oldValue)' to value '\\(newValue)'")
+                    print("[DebugPrintable] Variable 'value' has been changed from value '\\(oldValue)' to value '\\(value)'")
                     #endif
                 }
             }

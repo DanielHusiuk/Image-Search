@@ -23,7 +23,7 @@ final class MainPageViewController: UIViewController {
     
     @DebugPrintable
     private var searchCount = 0
-    private let debugMessage = #Obfuscated("Image Search started")
+    private let debugMessage = #Obfuscated("Image Search started - 3.1.1 Let him write the code for me. Macros")
     
     init(imageLoader: ImageLoaderProtocol) {
         self.imageLoader = imageLoader
