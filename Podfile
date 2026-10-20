@@ -4,7 +4,7 @@ target 'Image Search' do
   use_frameworks!
 
   # Pods for Image Search
-  pod 'TOCropViewController'
+  pod 'TOCropViewController', :git => 'https://github.com/DanielHusiuk/TOCropViewController.git', :branch => 'main'
   pod 'netfox', :configurations => ['Debug']
 
   target 'Image SearchTests' do

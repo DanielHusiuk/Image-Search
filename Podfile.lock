@@ -4,17 +4,26 @@ PODS:
 
 DEPENDENCIES:
   - netfox
-  - TOCropViewController
+  - TOCropViewController (from `https://github.com/DanielHusiuk/TOCropViewController.git`, branch `main`)
 
 SPEC REPOS:
   trunk:
     - netfox
-    - TOCropViewController
+
+EXTERNAL SOURCES:
+  TOCropViewController:
+    :branch: main
+    :git: https://github.com/DanielHusiuk/TOCropViewController.git
+
+CHECKOUT OPTIONS:
+  TOCropViewController:
+    :commit: d0e3bd4755d7e41d79ed8ad095afcc9d76990fad
+    :git: https://github.com/DanielHusiuk/TOCropViewController.git
 
 SPEC CHECKSUMS:
   netfox: 9d5cc727fe7576c4c7688a2504618a156b7d44b7
   TOCropViewController: 38189148d7014abafbb2914112fd767262d22659
 
-PODFILE CHECKSUM: 76158b8b4632f930aa73574fc53891868a3537a0
+PODFILE CHECKSUM: 06f180f998221068b2e59cf0bba875e1970ac456
 
 COCOAPODS: 1.17.0
