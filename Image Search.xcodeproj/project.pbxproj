@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		36AB4B6636BE66B00FB73384 /* Pods_Image_SearchTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDDF06334DF3CCBB0996733B /* Pods_Image_SearchTests.framework */; };
+		658A23973087EAD2002A383C /* Macros in Frameworks */ = {isa = PBXBuildFile; productRef = 658A23963087EAD2002A383C /* Macros */; };
 		65CAC0043073DBB9009086DE /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65CAC0033073DBB9009086DE /* Config.xcconfig */; };
 		6C312AC1CE2CFB6ADD6D9C94 /* Pods_Image_Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70258AE6B0E0E4F07FAF5E38 /* Pods_Image_Search.framework */; };
 		88576D6616AFC2D64DDD6A5F /* Pods_Image_Search_Image_SearchUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E2A48190EA3C97A3F75DE6 /* Pods_Image_Search_Image_SearchUITests.framework */; };
@@ -67,15 +68,11 @@
 		};
 		65CABFB93073D6EC009086DE /* Image SearchTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = "Image SearchTests";
 			sourceTree = "<group>";
 		};
 		65CABFC33073D6EC009086DE /* Image SearchUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = "Image SearchUITests";
 			sourceTree = "<group>";
 		};
@@ -87,6 +84,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C312AC1CE2CFB6ADD6D9C94 /* Pods_Image_Search.framework in Frameworks */,
+				658A23973087EAD2002A383C /* Macros in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,6 +256,9 @@
 			);
 			mainGroup = 65CABF973073D6EA009086DE;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				658A23953087EAD2002A383C /* XCLocalSwiftPackageReference "Macros" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 65CABFA13073D6EA009086DE /* Products */;
 			projectDirPath = "";
@@ -326,9 +327,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Image Search/Pods-Image Search-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Image Search/Pods-Image Search-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -384,9 +389,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Image Search-Image SearchUITests/Pods-Image Search-Image SearchUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Image Search-Image SearchUITests/Pods-Image Search-Image SearchUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -808,6 +817,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		658A23953087EAD2002A383C /* XCLocalSwiftPackageReference "Macros" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Macros;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		658A23963087EAD2002A383C /* Macros */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Macros;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 65CABF983073D6EA009086DE /* Project object */;
 }

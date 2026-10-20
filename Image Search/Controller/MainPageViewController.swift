@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Macros
 
 final class MainPageViewController: UIViewController {
     
@@ -19,6 +20,10 @@ final class MainPageViewController: UIViewController {
     private let galleryButton = CustomButton(style: .local)
     private let bottomLabel = CustomBottomLabel()
     private let imageLoader: ImageLoaderProtocol
+    
+    @DebugPrintable
+    private var searchCount = 0
+    private let debugMessage = #Obfuscated("Image Search started")
     
     init(imageLoader: ImageLoaderProtocol) {
         self.imageLoader = imageLoader
@@ -139,6 +144,8 @@ final class MainPageViewController: UIViewController {
             searchPageViewController.onTextChanged = { [weak self] text in
                 self?.textField.text = text
             }
+            searchCount += 1
+            print(debugMessage)
             navigationController?.pushViewController(searchPageViewController, animated: true)
             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         case .empty:
